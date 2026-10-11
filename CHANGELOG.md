@@ -1,8 +1,10 @@
 # Changelog
 
 ## 2026-10-11
+- `private.example/` (like `.env.example`): fictional `family.json`, `logos.json`, `league_games.txt` and a README describing every field. The build now reads `logos.json` from the config's folder.
+- README screenshots of the real board with names, places, clubs and logos blurred (`scripts/screenshots.py`).
 - Repository made reusable and safe to publish. Personal details moved to `private/family.json` (ignored by git). The board and task prompts are now templates filled in by `scripts/build_board.py`.
-- New: `scripts/check_private.py` (leak check), `scripts/preview.py` (open the board locally with an in-memory stand-in for Claude), a fictional `config/family.example.json` and `config/sample-db.json`.
+- New: `scripts/check_private.py` (leak check), `scripts/preview.py` (open the board locally with an in-memory stand-in for Claude), fictional example data (`config/sample-db.json`).
 - Kid and adult colour variables renamed to neutral names (`--k1`, `--k2`, `--a1`, `--a2`); no visible change.
 - Club logos moved out of the repository (`private/logos.json`).
 

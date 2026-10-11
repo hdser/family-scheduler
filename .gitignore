@@ -2,6 +2,7 @@ dist/
 private/
 db/
 *.png
+!docs/screenshots/*.png
 __pycache__/
 calendar_plan.json
 .DS_Store

@@ -1,7 +1,7 @@
 """Build the board page and the scheduled-task prompts from the templates.
 
     python3 scripts/build_board.py                      # uses private/family.json
-    python3 scripts/build_board.py --config config/family.example.json
+    python3 scripts/build_board.py --config private.example/family.json
 
 Writes
     dist/index.html          the board, one self-contained file (publish this)
@@ -13,9 +13,9 @@ Generated values live under "js." (see js_values below).
 
 The board must stay ONE file: a separate logos.json published next to the page
 was refused ("Forbidden") for people the board is shared with. Club logos are
-inlined from private/logos.json when that file exists (they are the clubs'
-property, so they are not in the repository); without it the board shows
-initials instead of logos.
+inlined from logos.json next to the config (private/logos.json) when it exists;
+they are the clubs' property, so they are not in the repository. Without it the
+board shows initials instead of logos.
 """
 import argparse, copy, json, pathlib, re, sys
 
@@ -106,7 +106,7 @@ def build(cfg_path, out_dir):
 
     src = (ROOT / "board/index.src.html").read_text()
     page = render(src, ctx, "board/index.src.html")
-    logos_file = ROOT / "private/logos.json"
+    logos_file = pathlib.Path(cfg_path).parent / "logos.json"
     logos = logos_file.read_text() if logos_file.exists() else '{"v":2,"l":[]}'
     json.loads(logos)  # fail early on a broken file
     tag = "<script>window.__LOGOS=" + logos.replace("</", "<\\/") + ";if(window.__setLogos)window.__setLogos(window.__LOGOS);</script>"
@@ -128,5 +128,5 @@ if __name__ == "__main__":
     ap.add_argument("--out", default=str(ROOT / "dist"))
     a = ap.parse_args()
     if not pathlib.Path(a.config).exists():
-        sys.exit(f"{a.config} not found. Copy config/family.example.json to private/family.json and fill it in.")
+        sys.exit(f"{a.config} not found. Copy private.example/ to private/ and fill in private/family.json.")
     build(a.config, pathlib.Path(a.out))

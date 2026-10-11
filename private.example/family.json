@@ -1,5 +1,5 @@
 {
-  "_readme": "Example family (fictional). Copy to private/family.json and replace every value. private/ is ignored by git, so your real names, emails and ids never get committed. Run python3 scripts/check_private.py before each commit.",
+  "_readme": "Fictional example. Copy the whole private.example/ folder to private/ and replace every value; private/ is ignored by git. Every field is described in private.example/README.md.",
   "board": {
     "title": "Lindqvist Team Sheet",
     "artifact_url": "https://claude.ai/artifact/YOUR-ARTIFACT-ID",
@@ -70,7 +70,6 @@
     "team_match": "northside",
     "kid_name": "Alva",
     "club_label": "Northside",
-    "solidsport_event": "your-league-slug",
     "club_id": "northside",
     "kid_id": "alva",
     "page_url": "https://handbollplay.se/your-league-slug/games/event/your-league-slug",

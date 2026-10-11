@@ -1,6 +1,6 @@
 """Open the board locally, without Claude, using sample or dumped data.
 
-    python3 scripts/build_board.py --config config/family.example.json
+    python3 scripts/build_board.py --config private.example/family.json
     python3 scripts/preview.py --data config/sample-db.json      # writes dist/preview.html
     open dist/preview.html                                        # or any browser
 
@@ -39,6 +39,16 @@ def load(path):
     return json.loads(p.read_text())
 
 
+def make_preview(page_html, data, now=None):
+    """The board page wrapped with the in-memory runtime and the given data."""
+    blob = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+    clock = CLOCK.replace("%NOW%", json.dumps(now)) if now else ""
+    head = ('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" '
+            'content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}'
+            'body{margin:0}[hidden]{display:none!important}</style></head><body>')
+    return head + MOCK.replace("%DATA%", blob).replace("%CLOCK%", clock) + page_html + "\n</body></html>"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default=str(ROOT / "config/sample-db.json"))
@@ -46,14 +56,8 @@ def main():
     ap.add_argument("--out", default=str(ROOT / "dist/preview.html"))
     ap.add_argument("--now", help="freeze the clock, ISO time with offset")
     a = ap.parse_args()
-    data = json.dumps(load(a.data), ensure_ascii=False).replace("</", "<\\/")
-    clock = CLOCK.replace("%NOW%", json.dumps(a.now)) if a.now else ""
-    head = ('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" '
-            'content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}'
-            'body{margin:0}[hidden]{display:none!important}</style></head><body>')
-    page = pathlib.Path(a.page).read_text()
     out = pathlib.Path(a.out)
-    out.write_text(head + MOCK.replace("%DATA%", data).replace("%CLOCK%", clock) + page + "\n</body></html>")
+    out.write_text(make_preview(pathlib.Path(a.page).read_text(), load(a.data), a.now))
     print(f"wrote {out}")
 
 

@@ -1,0 +1,6 @@
+# One game per line: date time|home|away|place|series   (time may be TBA)
+# Used by: python3 scripts/league_fixtures.py private/league_games.txt
+2026-10-24 10:00|Northside HF 1|Westbay HK|West Hall|Girls U11 South A
+2026-10-24 11:00|Lakeside IF|Northside HF 1|West Hall|Girls U11 South A
+2026-10-25 13:00|Northside HF 2|Lakeside IF|North Arena|Girls U11 South B
+2026-11-07 TBA|Westbay HK|Northside HF 2|Bay Sports Hall|Girls U11 South B

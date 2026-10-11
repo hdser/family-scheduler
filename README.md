@@ -2,7 +2,17 @@
 
 A shared board for two kids' sports, school and parties. It is kept up to date from Gmail by a scheduled Claude task and mirrored into a shared Google calendar for phone reminders. The board is a single HTML page published as a [Claude artifact](https://claude.ai). It keeps its data in the artifact's own database, so there's no server to run.
 
-Everything personal (names, email addresses, clubs, school, calendar id, the board's link) lives in `private/family.json`, which git ignores. The repository holds templates; a small build script fills them in.
+Everything personal (names, email addresses, clubs, school, calendar id, the board's link) lives in `private/`, which git ignores. The repository holds templates, and a small build script fills them in. `private.example/` shows what goes in `private/`, the way `.env.example` does for a `.env` file.
+
+| Up next (phone) | Week (desktop) |
+|---|---|
+| <img src="docs/screenshots/up-next-phone.png" width="260" alt="Up next feed on a phone"> | <img src="docs/screenshots/week-desktop.png" width="520" alt="Two-lane week grid"> |
+
+| School & work | Month (dark) | Overview (desktop, dark) |
+|---|---|---|
+| <img src="docs/screenshots/school-work-phone.png" width="220" alt="School timetable"> | <img src="docs/screenshots/month-phone-dark.png" width="220" alt="Month calendar with dots"> | <img src="docs/screenshots/overview-desktop-dark.png" width="420" alt="Up next on desktop, dark mode"> |
+
+*Screenshots of a real board, with names, places, clubs and logos blurred by `scripts/screenshots.py`.*
 
 ```
 Gmail ──(twice a day)──► Gmail → board sync ──► board database ◄──► board page (Claude artifact)
@@ -17,11 +27,12 @@ Gmail ──(twice a day)──► Gmail → board sync ──► board database
 |---|---|
 | `board/index.src.html` | The board page (HTML, CSS and JS in one file) with `{{placeholders}}` |
 | `tasks/*.md` | The scheduled tasks: settings plus the prompt template |
-| `config/family.example.json` | A fictional family showing every setting |
+| `private.example/` | What `private/` holds: a fictional `family.json`, `logos.json` and `league_games.txt`, and a README describing every field |
 | `config/sample-db.json` | Fictional board data for trying the page locally |
 | `scripts/build_board.py` | Fills the templates → `dist/index.html` and `dist/tasks/*.txt` |
 | `scripts/check_private.py` | Fails if a personal value from `private/family.json` is in a file git would commit |
 | `scripts/preview.py` | Wraps the built page with an in-memory stand-in for Claude so it opens in any browser |
+| `scripts/screenshots.py` | Screenshots of your board with personal details blurred |
 | `scripts/calendar_plan.py` | Dry run of the calendar rules against a dump of the board's data |
 | `scripts/league_fixtures.py` | Turns a league schedule into "possible match day" events |
 | `scripts/logos/` | Tests for matching team names to club logos |
@@ -30,7 +41,7 @@ Gmail ──(twice a day)──► Gmail → board sync ──► board database
 ## Try it
 
 ```bash
-python3 scripts/build_board.py --config config/family.example.json
+python3 scripts/build_board.py --config private.example/family.json
 python3 scripts/preview.py --now 2026-10-12T08:00:00+02:00
 open dist/preview.html
 ```
@@ -39,7 +50,7 @@ open dist/preview.html
 
 You need a Claude plan with artifacts and scheduled tasks, plus the Gmail and Google Calendar connectors.
 
-1. `cp config/family.example.json private/family.json` and fill it in. Kids, adults and clubs need short lower-case ids; they are stored in the data and used as CSS classes, so don't change them later. The `prompt` section holds the paragraphs that describe your clubs and school to the Gmail task. Write them the way you'd brief a new babysitter.
+1. `cp -r private.example private` and fill in `private/family.json` (every field is explained in `private.example/README.md`). Kids, adults and clubs need short lower-case ids; they are stored in the data and used as CSS classes, so don't change them later. The `prompt` section holds the paragraphs that describe your clubs and school to the Gmail task. Write them the way you'd brief a new babysitter.
 2. `python3 scripts/build_board.py`
 3. In Claude, publish `dist/index.html` as an artifact with the capabilities `db`, `user`, `assets`, `downloads` and `sample` (images on). Put its link in `board.artifact_url` and build again.
 4. Create a Google calendar for the reminders (or use an empty one) and put its id in `calendar.id`.
@@ -66,8 +77,17 @@ Republishing never touches the data: the page reads everything from the artifact
 
 ## Club logos
 
-The board shows club logos next to events and opponents. Logos are the clubs' property, so they aren't in this repository. Put your own collection in `private/logos.json` (format and sources in `docs/logos.md`). Without it the board shows initials instead.
+The board shows club logos next to events and opponents. Logos are the clubs' property, so they aren't in this repository. Put your own collection in `private/logos.json` (format and sources in `docs/logos.md`); the example folder has a few made-up ones. Without it the board shows initials instead.
 
 ## Licence
 
 MIT, see `LICENSE`.
+
+## Screenshots of your own board
+
+```bash
+pip install playwright pillow && python3 -m playwright install chromium
+python3 scripts/screenshots.py --data db --now 2026-10-12T08:00:00+02:00   # db = ArtifactData dump
+```
+
+Every private value, place, team and club name is replaced by random letters of the same length, then blurred; logos and initials are blurred too. Look at the images before committing them: the script only hides words it knows about.

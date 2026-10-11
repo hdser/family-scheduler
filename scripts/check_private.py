@@ -6,13 +6,13 @@
 What counts as personal: every text value in private/family.json (names, ids, emails,
 calendar id, board link, prompt paragraphs…) plus the extra words listed under
 "private_terms" (surname, school, clubs, town…). Values that are the same as in
-config/family.example.json, and generic words like "his" or "handball", are skipped.
+private.example/family.json, and generic words like "his" or "handball", are skipped.
 """
 import json, pathlib, re, subprocess, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PRIVATE = ROOT / "private/family.json"
-EXAMPLE = ROOT / "config/family.example.json"
+EXAMPLE = ROOT / "private.example/family.json"
 GENERIC = {"he", "his", "him", "himself", "she", "her", "hers", "herself", "they", "their", "them",
            "themselves", "handball", "basketball", "volleyball", "swimming", "school", "both", "family"}
 SKIP_KEYS = {"match", "_readme"}  # regex patterns are covered by private_terms
