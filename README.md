@@ -82,12 +82,3 @@ The board shows club logos next to events and opponents. Logos are the clubs' pr
 ## Licence
 
 MIT, see `LICENSE`.
-
-## Screenshots of your own board
-
-```bash
-pip install playwright pillow && python3 -m playwright install chromium
-python3 scripts/screenshots.py --data db --now 2026-10-12T08:00:00+02:00   # db = ArtifactData dump
-```
-
-Every private value, place, team and club name is replaced by random letters of the same length, then blurred; logos and initials are blurred too. Look at the images before committing them: the script only hides words it knows about.
