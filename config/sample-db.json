@@ -1,0 +1,355 @@
+{
+ "events": {
+  "ev-20261017-northside-cup": {
+   "title": "Autumn Cup",
+   "short": "Autumn Cup",
+   "kid": "alva",
+   "club": "northside",
+   "kind": "tournament",
+   "start": "2026-10-17T09:00",
+   "end": "2026-10-17T15:00",
+   "meet": "08:30",
+   "place": "North Arena",
+   "notes": "Packed lunch and water bottle",
+   "status": "confirmed",
+   "rsvpBy": "2026-10-14",
+   "source": "email"
+  },
+  "ev-20261018-hoops-match": {
+   "title": "River Hoops – Eastside BK",
+   "short": "Basket match",
+   "kid": "theo",
+   "club": "hoops",
+   "kind": "match",
+   "start": "2026-10-18T11:00",
+   "end": "2026-10-18T12:30",
+   "meet": "10:30",
+   "place": "Riverside Hall",
+   "status": "confirmed",
+   "source": "email"
+  },
+  "ev-20261024-northside-t1": {
+   "title": "Possible match day · Northside HF 1",
+   "short": "Team 1?",
+   "kid": "alva",
+   "club": "northside",
+   "kind": "match",
+   "start": "2026-10-24T10:00",
+   "end": "2026-10-24T11:40",
+   "place": "West Hall",
+   "status": "tentative",
+   "team": "Northside HF 1",
+   "games": [
+    {
+     "time": "10:00",
+     "home": "Northside HF 1",
+     "away": "Westbay HK",
+     "place": "West Hall"
+    },
+    {
+     "time": "11:00",
+     "home": "Lakeside IF",
+     "away": "Northside HF 1",
+     "place": "West Hall"
+    }
+   ],
+   "source": "league"
+  },
+  "fw-sample1": {
+   "title": "Maja's birthday party",
+   "short": "Maja's party",
+   "kid": "alva",
+   "kind": "social",
+   "start": "2026-10-25T14:00",
+   "end": "2026-10-25T16:30",
+   "place": "Jump Park",
+   "notes": "Gift: book or craft set",
+   "status": "confirmed",
+   "source": "forward",
+   "rsvpBy": "2026-10-20"
+  },
+  "ev-20261022-school-parents": {
+   "title": "Parents' evening",
+   "short": "Parents' evening",
+   "kid": "both",
+   "club": "school",
+   "kind": "meet",
+   "start": "2026-10-22T18:00",
+   "end": "2026-10-22T19:00",
+   "place": "Example School",
+   "optional": true,
+   "status": "confirmed",
+   "source": "email"
+  },
+  "ev-20261015-seals-cancel": {
+   "title": "Swimming cancelled",
+   "short": "No swimming",
+   "kid": "alva",
+   "club": "seals",
+   "kind": "change",
+   "start": "2026-10-15",
+   "cancelsRoutine": "r-seals-thu",
+   "status": "confirmed",
+   "source": "email"
+  }
+ },
+ "routine": {
+  "r-northside-tue": {
+   "kid": "alva",
+   "club": "northside",
+   "label": "Handball",
+   "day": 2,
+   "start": "17:00",
+   "end": "18:30",
+   "place": "North Arena"
+  },
+  "r-northside-sat": {
+   "kid": "alva",
+   "club": "northside",
+   "label": "Handball",
+   "day": 6,
+   "start": "10:00",
+   "end": "11:30",
+   "place": "North Arena"
+  },
+  "r-seals-thu": {
+   "kid": "alva",
+   "club": "seals",
+   "label": "Swimming",
+   "day": 4,
+   "start": "18:00",
+   "end": "19:00",
+   "place": "City Pool"
+  },
+  "r-hoops-mon": {
+   "kid": "theo",
+   "club": "hoops",
+   "label": "Basket",
+   "day": 1,
+   "start": "17:00",
+   "end": "18:00",
+   "place": "Riverside Hall"
+  },
+  "r-hoops-wed": {
+   "kid": "theo",
+   "club": "hoops",
+   "label": "Basket",
+   "day": 3,
+   "start": "17:30",
+   "end": "18:30",
+   "place": "Riverside Hall"
+  }
+ },
+ "todos": {
+  "t-northside-cup-rsvp": {
+   "title": "Answer the Autumn Cup call-up",
+   "kid": "alva",
+   "club": "northside",
+   "priority": "high",
+   "due": "2026-10-14",
+   "eventId": "ev-20261017-northside-cup",
+   "done": false,
+   "source": "email"
+  },
+  "t-hoops-fee": {
+   "title": "Pay the season fee",
+   "kid": "theo",
+   "club": "hoops",
+   "due": "2026-10-31",
+   "detail": "Invoice in the club app",
+   "done": false,
+   "source": "email"
+  },
+  "t-fw-sample1": {
+   "title": "Reply to Maja's parents",
+   "kid": "alva",
+   "due": "2026-10-20",
+   "done": false,
+   "source": "forward"
+  }
+ },
+ "clubs": {
+  "northside": {
+   "name": "Northside HK",
+   "short": "Northside",
+   "sport": "Handball",
+   "team": "F2016",
+   "kids": [
+    "alva"
+   ],
+   "system": "SportAdmin",
+   "order": 1
+  },
+  "hoops": {
+   "name": "River Hoops",
+   "short": "River Hoops",
+   "sport": "Basketball",
+   "team": "U10",
+   "kids": [
+    "theo"
+   ],
+   "system": "Svenskalag",
+   "order": 2
+  },
+  "seals": {
+   "name": "Seals SK",
+   "short": "Seals",
+   "sport": "Swimming",
+   "team": "Swim school 3",
+   "kids": [
+    "alva"
+   ],
+   "system": "SportAdmin",
+   "order": 3
+  },
+  "school": {
+   "name": "Example School",
+   "short": "School",
+   "sport": "School",
+   "kids": [
+    "alva",
+    "theo"
+   ],
+   "system": "Email",
+   "order": 9
+  }
+ },
+ "timetable": {
+  "tt-alva-1": {
+   "person": "alva",
+   "kind": "school",
+   "label": "School",
+   "day": 1,
+   "start": "08:10",
+   "end": "14:30"
+  },
+  "tt-theo-1": {
+   "person": "theo",
+   "kind": "school",
+   "label": "School",
+   "day": 1,
+   "start": "08:20",
+   "end": "13:30"
+  },
+  "tt-alva-2": {
+   "person": "alva",
+   "kind": "school",
+   "label": "School",
+   "day": 2,
+   "start": "08:10",
+   "end": "14:30"
+  },
+  "tt-theo-2": {
+   "person": "theo",
+   "kind": "school",
+   "label": "School",
+   "day": 2,
+   "start": "08:20",
+   "end": "13:30"
+  },
+  "tt-alva-3": {
+   "person": "alva",
+   "kind": "school",
+   "label": "School",
+   "day": 3,
+   "start": "08:10",
+   "end": "14:30"
+  },
+  "tt-theo-3": {
+   "person": "theo",
+   "kind": "school",
+   "label": "School",
+   "day": 3,
+   "start": "08:20",
+   "end": "13:30"
+  },
+  "tt-alva-4": {
+   "person": "alva",
+   "kind": "school",
+   "label": "School",
+   "day": 4,
+   "start": "08:10",
+   "end": "14:30"
+  },
+  "tt-theo-4": {
+   "person": "theo",
+   "kind": "school",
+   "label": "School",
+   "day": 4,
+   "start": "08:20",
+   "end": "13:30"
+  },
+  "tt-alva-5": {
+   "person": "alva",
+   "kind": "school",
+   "label": "School",
+   "day": 5,
+   "start": "08:10",
+   "end": "14:30"
+  },
+  "tt-theo-5": {
+   "person": "theo",
+   "kind": "school",
+   "label": "School",
+   "day": 5,
+   "start": "08:20",
+   "end": "13:30"
+  },
+  "tt-robin-1": {
+   "person": "robin",
+   "kind": "work",
+   "label": "Work",
+   "day": 1,
+   "start": "08:00",
+   "end": "16:30"
+  },
+  "tt-robin-2": {
+   "person": "robin",
+   "kind": "work",
+   "label": "Work",
+   "day": 2,
+   "start": "08:00",
+   "end": "16:30"
+  },
+  "tt-robin-3": {
+   "person": "robin",
+   "kind": "work",
+   "label": "Work",
+   "day": 3,
+   "start": "08:00",
+   "end": "16:30"
+  },
+  "tt-robin-4": {
+   "person": "robin",
+   "kind": "work",
+   "label": "Work",
+   "day": 4,
+   "start": "08:00",
+   "end": "16:30"
+  }
+ },
+ "breaks": {
+  "br-20261026-autumn": {
+   "label": "Autumn break",
+   "from": "2026-10-26",
+   "to": "2026-10-30",
+   "who": [
+    "alva",
+    "theo"
+   ],
+   "source": "email"
+  }
+ },
+ "meta": {
+  "sync": {
+   "lastRun": "2026-10-12T06:58:00+02:00",
+   "schedule": "Checks Gmail daily at 06:55 and 17:55",
+   "log": [
+    {
+     "at": "2026-10-11T20:10:00+02:00",
+     "text": "Added the Autumn Cup call-up for Alva"
+    }
+   ]
+  }
+ }
+}

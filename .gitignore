@@ -1,0 +1,8 @@
+dist/
+private/
+db/
+*.png
+__pycache__/
+calendar_plan.json
+.DS_Store
+node_modules/
