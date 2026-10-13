@@ -102,7 +102,7 @@
     "school": "SCHOOL\n- Describe where school messages come from (sender address), how to tell which child a message is for (class names, year group), what should become events, breaks (days without school) and to-dos, and what to skip.\n- Never write to the \"timetable\" collection. If an email permanently changes a class schedule, add a to-do \"Update <kid>'s timetable: <what changed>\" instead.",
     "league": "NORTHSIDE HANDBALL LEAGUE (possible match days)\n- Optional. Use this section if a child's team plays in a league with several club teams and the child's team for the day is only known from the call-up. Describe the league, the team names, the ids of the tentative events (e.g. ev-YYYYMMDD-northside-t1) and how a call-up confirms one of them. Otherwise replace this paragraph with \"(no league section)\".",
     "gmail_query": "(from:sportadmin.se OR from:svenskalag.se OR \"Northside HK\" OR \"River Hoops\" OR \"Seals SK\" OR \"Example School\")",
-    "mail_details": "Describe how to read each club's call-ups: where the meeting time, place and reply deadline are, and which link is the reply link.",
+    "mail_details": "Describe how to read each club's call-ups: where the meeting time, place and reply deadline are, and which link is the reply link. If a club sends news notifications that only contain a title and a link, say so here and tell the task to WebFetch the link and use the article (it often corrects times or places of an existing event).",
     "audit_kids": "correct kid (Alva = Northside F2016, Seals SK, class 4A; Theo = River Hoops U10, class 2B)",
     "audit_league": "league call-ups confirming the right tentative match day"
   },

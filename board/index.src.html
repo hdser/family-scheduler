@@ -1834,7 +1834,19 @@ function saveImport(){
 var VIEWFN={overview:vOverview,cal:function(){return UI.calView==="month"?vCalendar():vWeek(UI.calView)},calendar:vCalendar,agenda:vAgenda,week:vWeek,timetable:vTimetable,todos:vTodos,clubs:vClubs};
 var raf=0;
 function render(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;doRender()})}
+/* events saved without a club (e.g. added by hand) borrow the kid's club for the sport named in the title,
+   so they still get the club logo; only in memory, nothing is written back */
+var SPORTWORD={basketball:/\bbasket/i,handball:/\bhand(boll|ball)/i,volleyball:/\bvolley/i,swimming:/\b(sim|swim)/i};
+function guessClub(e){
+  if(!e||e.club||!e.kid||e.kid==="both")return "";
+  var t=[e.title,e.short,e.notes].join(" "),mine=S.clubs.filter(function(c){return (c.kids||[]).indexOf(e.kid)>=0&&OWNCLUB[c.id]});
+  var named=mine.filter(function(c){return [OWNCLUB[c.id],c.name,c.short].some(function(n){return n&&t.toLowerCase().indexOf(String(n).toLowerCase())>=0})});
+  if(named.length===1)return named[0].id;
+  var bySport=mine.filter(function(c){var re=SPORTWORD[CLUBSPORT[c.id]];return re&&re.test(t)});
+  return bySport.length===1?bySport[0].id:"";
+}
 function doRender(){
+  S.events.forEach(function(e){if(!e.club){var g=guessClub(e);if(g){e.club=g;e._clubGuessed=true}}});
   renderNav();
   var allLoaded=["events","todos","routine","clubs","meta"].every(function(k){return S.loaded[k]});
   if(S.dbState!=="none"&&!allLoaded){return}
@@ -2028,7 +2040,7 @@ function fillFromMessage(){
     '"date": "YYYY-MM-DD" or null (resolve weekday names and relative dates against today; if the year is missing use the next upcoming date);\n'+
     '"start": "HH:MM" 24-hour or null; "end": "HH:MM" or null; "meet": drop-off time "HH:MM" if different from start, else null;\n'+
     '"place": venue or address or null;\n'+
-    '"club": one of {{js.fill_club_ids}} or null;\n'+
+    '"club": one of {{js.fill_club_ids}}: the club where that kid does the sport the message is about (a match or training in a sport the kid plays belongs to that club), or null if it is not about one of these clubs;\n'+
     '"rsvpBy": "YYYY-MM-DD" or null;\n'+
     '"notes": up to three short lines in English with practical details (what to bring, gift, who to reply to and how, pickup), or "";\n'+
     '"missing": one short sentence naming anything important you could not find, or "".\n\n'+
@@ -2161,6 +2173,7 @@ function submitAdd(){
   doc.end=end&&time?date+"T"+end:null;
   doc.meet=v("a-meet")||null;
   doc.rsvpBy=v("a-rsvp")||null;
+  if(!doc.club){var gc=guessClub(doc);if(gc)doc.club=gc}
   save.disabled=true;err.hidden=false;err.textContent=PEND.length?"Uploading files…":"Saving…";
   var fail=function(e){save.disabled=false;err.textContent=(e&&e.code==="invalid_argument")?"Couldn’t save: you don’t have edit access to this board.":(e&&e.code&&!/invalid_argument|quota_exceeded|unavailable/.test(e.code))?uploadErr(e):"Couldn’t save. Try again."};
   if(editId){

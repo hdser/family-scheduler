@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-13
+- Gmail sync now opens club news links (Svenskalag "har publicerat en nyhet" mails only carry a link) and applies corrected times or places to the existing event. Triggered by a coach correcting a tournament's meeting time in a news post the sync had skipped.
+
+## 2026-10-12
+- Events without a club (e.g. added by hand) borrow the kid's club for the sport named in the title, so they get the club logo; new events are saved with that club.
+- "Fill in from a message" now asks for the kid's club for that sport instead of leaving it empty.
+
 ## 2026-10-11
 - `private.example/` (like `.env.example`): fictional `family.json`, `logos.json`, `league_games.txt` and a README describing every field. The build now reads `logos.json` from the config's folder.
 - README screenshots of the real board with names, places, clubs and logos blurred (`scripts/screenshots.py`).
