@@ -74,6 +74,17 @@ Sports clubs (the school is always `school` and isn't listed here).
 | `family_label` | `"Family"` | Title prefix for entries for both kids (`Family · Parents' evening`) |
 | `family_color` | `"8"` | Colour id for those entries |
 
+### `work` (a parent's shifts in their own calendar)
+
+The calendar sync copies one adult's work shifts (School & work view, kind "work") into a separate Google calendar, so that person gets alerts and nobody else does. Create the calendar in Google Calendar, share it with them, and have only them turn on notifications for it.
+
+| Field | Example | Notes |
+|---|---|---|
+| `calendar_id` | `"…@group.calendar.google.com"` | The work calendar's Calendar ID |
+| `calendar_name` | `"Robin – work"` | Its name as Google shows it |
+| `person_id`, `person_name` | `"robin"`, `"Robin"` | The adult whose shifts are copied |
+| `window_days` | `"90"` | How many days ahead to copy |
+
 ### `league` (only if you use the possible-match-day feature)
 
 | Field | Example | Notes |

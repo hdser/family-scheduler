@@ -40,7 +40,7 @@ id, name, short, sport, team, kids[], system, contact, web, fees, notes, order.
 
 ## timetable (page only)
 
-School and work slots: person (a kid or adult id), kind (`school` · `work` · `other`), label, day or date, start, end, place, note, from/to. The sync never writes here.
+School and work slots: person (a kid or adult id), kind (`school` · `work` · `other`), label, day or date, start, end, place, note, from/to. No sync writes here; the calendar sync reads the work slots of the person in `work.person_id`.
 
 ## breaks
 
@@ -49,7 +49,7 @@ Days without school: label, from, to, who[], note, source. The sync only adds do
 ## meta
 
 - `meta/sync`: lastRun, schedule, log[] (newest first, max 15). Written by the Gmail sync.
-- `meta/gcal`: calendarId, map (`key → Google event id`), dismissed[], lastRun, status. Written by the calendar sync. Keys: `ev:<event id>` and `r:<routine id>:<YYYY-MM-DD>`.
+- `meta/gcal`: calendarId, map (`key → Google event id`), dismissed[], workMap, workDismissed[], lastRun, status. Written by the calendar sync. Keys: `ev:<event id>` and `r:<routine id>:<YYYY-MM-DD>` in the shared calendar; `w:<YYYY-MM-DD>:<HHMM>` (one merged block of work shifts) in the work calendar.
 
 ## Who writes what
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-10-19
+- Calendar sync also copies one parent's work shifts into a separate shared calendar ("<name> – work") for the next 90 days, one entry per working day and no reminders of their own, so only that parent's notification settings apply.
+
 ## 2026-10-13
 - Gmail sync now opens club news links (Svenskalag "har publicerat en nyhet" mails only carry a link) and applies corrected times or places to the existing event. Triggered by a coach correcting a tournament's meeting time in a news post the sync had skipped.
 

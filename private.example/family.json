@@ -114,5 +114,12 @@
     "Northside HK",
     "River Hoops",
     "Seals SK"
-  ]
+  ],
+  "work": {
+    "calendar_id": "YOUR-WORK-CALENDAR-ID@group.calendar.google.com",
+    "calendar_name": "Robin – work",
+    "person_id": "robin",
+    "person_name": "Robin",
+    "window_days": "90"
+  }
 }

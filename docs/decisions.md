@@ -2,6 +2,9 @@
 
 Newest first. Each entry says what was decided and why.
 
+## 2026-10-19: A parent's work shifts get their own calendar
+Shifts from the School & work view go into a separate shared calendar ("<name> – work"), not into the family calendar. Google reminders are per person and per calendar, so a calendar of its own lets that parent get alerts for shifts while the other parent turns its alerts off (or hides it). The sync writes the entries with no reminders of their own, merges back-to-back shifts on the same day into one entry (so one alert per working day), and looks 90 days ahead because rosters are known well in advance. The Google connection can't create calendars, so the calendar is created and shared by hand once.
+
 ## 2026-10-11: Public repository, personal data in `private/`
 The board page, task prompts and scripts are templates. Names, ids, email addresses, the calendar id, the board's link and the family-specific prompt paragraphs live in `private/family.json`, which git ignores. `scripts/build_board.py` fills the templates in, and `scripts/check_private.py` fails if any of those values shows up in a file git would commit. When the split was made, the rebuilt task prompts were character-for-character identical to the ones running. The rebuilt board only differed in neutral renames (CSS variables `--k1/--k2/--a1/--a2`), and screenshots of every view matched pixel for pixel. Club logos stay private too (they are the clubs' property).
 
