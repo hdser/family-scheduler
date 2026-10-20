@@ -52,7 +52,7 @@ You need a Claude plan with artifacts and scheduled tasks, plus the Gmail and Go
 
 1. `cp -r private.example private` and fill in `private/family.json` (every field is explained in `private.example/README.md`). Kids, adults and clubs need short lower-case ids; they are stored in the data and used as CSS classes, so don't change them later. The `prompt` section holds the paragraphs that describe your clubs and school to the Gmail task. Write them the way you'd brief a new babysitter.
 2. `python3 scripts/build_board.py`
-3. In Claude, publish `dist/index.html` as an artifact with the capabilities `db`, `user`, `assets`, `downloads` and `sample` (images on). Put its link in `board.artifact_url` and build again.
+3. In Claude, publish `dist/index.html` as an artifact with the capabilities `db`, `user`, `downloads` and `sample` (images on). Put its link in `board.artifact_url` and build again. Leave out `assets` (screenshots attached to events): uploaded files can stop the board from being shared by invitation, and the board simply hides the attach buttons without it. Never put `data:` URLs in the page: claude.ai refuses to share pages that contain them (the build checks this). Share with the other parent as **Editor** if they should be able to answer Going / Not going, tick to-dos or add events; Viewers and Commenters can only read.
 4. Create a Google calendar for the reminders (or use an empty one) and put its id in `calendar.id`.
 5. Create the scheduled tasks from `tasks/*.md`: the settings are in each file's table, and the text to paste is in `dist/tasks/<name>.txt`. Give the Gmail task the Gmail connector and the calendar task the Google Calendar connector.
 6. Optional: forward invitations to a `+board` alias of your address (`board.forward_email`); the Gmail task turns every message sent there into an event.
@@ -82,3 +82,12 @@ The board shows club logos next to events and opponents. Logos are the clubs' pr
 ## Licence
 
 MIT, see `LICENSE`.
+
+## Screenshots of your own board
+
+```bash
+pip install playwright pillow && python3 -m playwright install chromium
+python3 scripts/screenshots.py --data db --now 2026-10-12T08:00:00+02:00   # db = ArtifactData dump
+```
+
+Every private value, place, team and club name is replaced by random letters of the same length, then blurred; logos and initials are blurred too. Look at the images before committing them: the script only hides words it knows about.

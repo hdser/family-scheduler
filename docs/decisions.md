@@ -2,6 +2,14 @@
 
 Newest first. Each entry says what was decided and why.
 
+## 2026-10-20: No data: URLs in the page, and no `assets`
+The other parent (invited by email) got "Forbidden", and the Share panel said "This version can't be shared by invitation". claude.ai refuses to share a page that contains encoded `data:` URLs, and the board had 616 of them (every inlined club logo plus one CSS arrow). Removing the `assets` capability alone (version 37) did not help; version 39, with no `data:` URLs, could be shared at once.
+- Logos are inlined as `[sport, names, mime, base64]` and turned into `blob:` URLs at runtime; the select arrow is a `blob:` URL set from script. Screenshots of all views were pixel-identical before and after.
+- `scripts/build_board.py` stops if the built page contains a `data:` URL.
+- `assets` (screenshots attached to events) stays off: the help centre also lists "an uploaded file that hasn't passed the check" as a reason invitations are refused. The board hides the attach buttons without it.
+- Data changes (syncs, answers) never create a new version; only republishing the page does, and after that the other parent should reload once to make sure the shared version followed.
+- The 9 October "Forbidden" had the same cause; inlining the logos there only looked like the fix.
+
 ## 2026-10-19: A parent's work shifts get their own calendar
 Shifts from the School & work view go into a separate shared calendar ("<name> – work"), not into the family calendar. Google reminders are per person and per calendar, so a calendar of its own lets that parent get alerts for shifts while the other parent turns its alerts off (or hides it). The sync writes the entries with no reminders of their own, merges back-to-back shifts on the same day into one entry (so one alert per working day), and looks 90 days ahead because rosters are known well in advance. The Google connection can't create calendars, so the calendar is created and shared by hand once.
 

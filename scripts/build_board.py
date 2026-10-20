@@ -99,7 +99,7 @@ def prompt_of(md):
     return m.group(1)
 
 
-def build(cfg_path, out_dir):
+def build(cfg_path, out_dir, no_logos=False):
     cfg = json.loads(pathlib.Path(cfg_path).read_text())
     ctx = context(cfg)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -107,13 +107,23 @@ def build(cfg_path, out_dir):
     src = (ROOT / "board/index.src.html").read_text()
     page = render(src, ctx, "board/index.src.html")
     logos_file = pathlib.Path(cfg_path).parent / "logos.json"
-    logos = logos_file.read_text() if logos_file.exists() else '{"v":2,"l":[]}'
-    json.loads(logos)  # fail early on a broken file
+    data = json.loads(logos_file.read_text()) if logos_file.exists() and not no_logos else {"v": 2, "l": []}
+    # store [sport, names, mime, base64] instead of a data: URL: claude.ai refuses to share
+    # (by invitation or link) a page that contains encoded data: URLs
+    for x in data["l"]:
+        if len(x) == 3 and x[2].startswith("data:"):
+            head, b64 = x[2].split(",", 1)
+            x[2:] = [head[5:].split(";")[0], b64]
+    logos = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     tag = "<script>window.__LOGOS=" + logos.replace("</", "<\\/") + ";if(window.__setLogos)window.__setLogos(window.__LOGOS);</script>"
     assert page.count("<!--LOGOS-->") == 1
     page = page.replace("<!--LOGOS-->", tag)
+    # claude.ai refuses to share a page (by invitation or link) that contains encoded data: URLs
+    bad = re.findall(r"data:[a-z]+/[a-z0-9.+-]+[;,]", page)
+    if bad:
+        sys.exit(f"dist/index.html would contain {len(bad)} data: URL(s) ({bad[0]}…); claude.ai won't let it be shared. Build them at runtime as blob: URLs instead.")
     (out_dir / "index.html").write_text(page)
-    print(f"wrote {out_dir / 'index.html'} ({len(page.encode()):,} bytes, logos: {'yes' if logos_file.exists() else 'none'})")
+    print(f"wrote {out_dir / 'index.html'} ({len(page.encode()):,} bytes, logos: {len(data['l'])})")
 
     (out_dir / "tasks").mkdir(exist_ok=True)
     for md in sorted((ROOT / "tasks").glob("*.md")):
@@ -126,7 +136,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--config", default=str(ROOT / "private/family.json"))
     ap.add_argument("--out", default=str(ROOT / "dist"))
+    ap.add_argument("--no-logos", action="store_true", help="leave the club logos out")
     a = ap.parse_args()
     if not pathlib.Path(a.config).exists():
         sys.exit(f"{a.config} not found. Copy private.example/ to private/ and fill in private/family.json.")
-    build(a.config, pathlib.Path(a.out))
+    build(a.config, pathlib.Path(a.out), a.no_logos)

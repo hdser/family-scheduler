@@ -139,7 +139,7 @@ svg{flex:none}
 .btn svg{width:17px;height:17px}
 .btn[disabled]{opacity:.5;cursor:not-allowed}
 .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.toolbar select,.cal-f select,.select{appearance:none;-webkit-appearance:none;border:1px solid var(--line-2);background:var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23889' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 11px center;border-radius:var(--r-sm);padding:8px 32px 8px 12px;font-size:.86rem;font-weight:500;min-height:38px;max-width:100%}
+.toolbar select,.cal-f select,.select{appearance:none;-webkit-appearance:none;border:1px solid var(--line-2);background:var(--panel) var(--sel-arrow,none) no-repeat right 11px center;border-radius:var(--r-sm);padding:8px 32px 8px 12px;font-size:.86rem;font-weight:500;min-height:38px;max-width:100%}
 .check{display:inline-flex;align-items:center;gap:7px;font-size:.86rem;color:var(--muted);min-height:38px;padding:0 4px}
 .check input{width:17px;height:17px;accent-color:var(--accent)}
 .empty{color:var(--muted);font-size:.9rem;padding:8px 0}
@@ -885,6 +885,8 @@ button.slotbtn:hover b{text-decoration:underline;text-underline-offset:2px}
 <script>
 (function(){
 "use strict";
+/* the select arrow is built at runtime as a blob: URL; claude.ai refuses to share pages that carry encoded data: URLs */
+try{var SA='<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#889" stroke-width="2.5" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>';document.documentElement.style.setProperty("--sel-arrow",'url("'+URL.createObjectURL(new Blob([SA],{type:"image/svg+xml"}))+'")')}catch(e){}
 /* ---------- constants ---------- */
 var KIDS={{{kid1.id}}:{name:"{{kid1.name}}"},{{kid2.id}}:{name:"{{kid2.name}}"},both:{name:"Both"}};
 var KINDS={match:"Match",tournament:"Tournament",training:"Training",team:"Team activity",meet:"Swim meet",camp:"Camp",fan:"Fan event",social:"Party / social",change:"Schedule change",other:"Other"};
@@ -1213,7 +1215,7 @@ function logoFor(name,sport){
 }
 function logoUrl(x){
   if(!x)return "";
-  if(!x.u){try{var p=x[2].split(","),bin=atob(p[1]),arr=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);x.u=URL.createObjectURL(new Blob([arr],{type:(/data:([^;]+)/.exec(p[0])||[])[1]||"image/webp"}))}catch(e){x.u=x[2]}}
+  if(!x.u){try{var bin=atob(x[3]),arr=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);x.u=URL.createObjectURL(new Blob([arr],{type:x[2]||"image/webp"}))}catch(e){x.u=""}}
   return x.u;
 }
 function clubLogo(id){return id&&OWNCLUB[id]?logoFor(OWNCLUB[id],CLUBSPORT[id]):null}
