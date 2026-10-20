@@ -1984,6 +1984,7 @@ function renderPend(){
 }
 function addPending(files){
   Array.prototype.forEach.call(files||[],function(f){
+    if(!S.assets&&!/^image\//.test(f.type)){toast("Only screenshots and photos can be read here.");return}
     if(!/^image\//.test(f.type)&&f.type!=="application/pdf"&&f.type!=="text/plain"){toast("Only images, PDFs and text files can be attached.");return}
     if(f.size>20*1024*1024){toast(f.name+" is over 20 MB.");return}
     PEND.push(f);
@@ -2001,9 +2002,9 @@ function openAdd(date,editId){
   var clubOpts=S.clubs.map(function(c){return '<option value="'+esc(c.id)+'"'+sel(ex&&ex.club,c.id)+'>'+esc(c.short||c.name)+'</option>'}).join("");
   var b='<form class="form" id="addForm" novalidate'+(ex?' data-edit="'+esc(ex.id)+'"':'')+'>';
   if(!ex){
-    b+='<div class="quick" id="a-quick"><div class="quick-h">'+ICON.spark+'<div><b>'+(S.sample?'Fill in from a message':'Add a screenshot or file')+'</b><span class="note">'+(S.sample?'Paste the invitation, text message or email, or add a screenshot of it. Claude reads it and fills in the details below.':'It will be saved with the event.')+'</span></div></div>'+
+    b+='<div class="quick" id="a-quick"><div class="quick-h">'+ICON.spark+'<div><b>'+(S.sample?'Fill in from a message':'Add a screenshot or file')+'</b><span class="note">'+(S.sample?'Paste the invitation, text message or email, or add a screenshot of it. Claude reads it and fills in the details below.'+(S.assets?'':' The screenshot is only read, not saved with the event.'):'It will be saved with the event.')+'</span></div></div>'+
       (S.sample?'<textarea id="a-paste" rows="4" maxlength="8000" placeholder="Paste the message here…" aria-label="Message text"></textarea>':'')+
-      '<div class="att-row">'+(S.assets?'<label class="btn" for="a-file">'+ICON.clip+'Screenshot or file</label><input id="a-file" type="file" multiple accept="image/*,application/pdf,text/plain" hidden>':'')+
+      '<div class="att-row">'+(S.assets?'<label class="btn" for="a-file">'+ICON.clip+'Screenshot or file</label><input id="a-file" type="file" multiple accept="image/*,application/pdf,text/plain" hidden>':S.sample?'<label class="btn" for="a-file">'+ICON.clip+'Screenshot</label><input id="a-file" type="file" multiple accept="image/*" hidden>':'')+
       (S.sample?'<button type="button" class="btn primary" id="a-fill" data-act="fill" disabled>'+ICON.spark+'Fill in for me</button>':'')+'</div>'+
       '<div class="att-list" id="a-files"></div><p class="fillmsg" id="a-fillmsg" hidden></p></div>'+
       '<div class="or">Details</div>';
@@ -2072,7 +2073,7 @@ function fillFromMessage(){
 }
 function uploadAll(files){
   if(!files.length)return Promise.resolve([]);
-  if(!S.assets)return Promise.reject({code:"no_assets"});
+  if(!S.assets)return Promise.resolve([]); /* no file storage on this board: screenshots are only read by "Fill in", never saved */
   return files.reduce(function(p,f){return p.then(function(out){
     var opt=f.type?undefined:{type:"image/png"};
     return S.assets.upload(f,opt).then(function(r){out.push({id:r.id,name:f.name||"Screenshot",type:r.contentType,size:r.sizeBytes});return out});
@@ -2176,7 +2177,7 @@ function submitAdd(){
   doc.meet=v("a-meet")||null;
   doc.rsvpBy=v("a-rsvp")||null;
   if(!doc.club){var gc=guessClub(doc);if(gc)doc.club=gc}
-  save.disabled=true;err.hidden=false;err.textContent=PEND.length?"Uploading files…":"Saving…";
+  save.disabled=true;err.hidden=false;err.textContent=PEND.length&&S.assets?"Uploading files…":"Saving…";
   var fail=function(e){save.disabled=false;err.textContent=(e&&e.code==="invalid_argument")?"Couldn’t save: you don’t have edit access to this board.":(e&&e.code&&!/invalid_argument|quota_exceeded|unavailable/.test(e.code))?uploadErr(e):"Couldn’t save. Try again."};
   if(editId){
     S.db.doc("events/"+editId).update(doc).then(function(){closeDrawer();toast("Saved")},fail);

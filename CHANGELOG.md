@@ -3,6 +3,7 @@
 ## 2026-10-20
 - Board can be shared by invitation again: no `data:` URLs left in the page (logos stored as base64 and turned into blob: URLs at runtime; select arrow drawn from script). The build refuses to produce a page with a `data:` URL. No visible change.
 - `assets` capability (attaching screenshots to events) turned off.
+- Add event: the "Screenshot" button is back without `assets`. The screenshot is read by "Fill in from a message" (also by pasting or dropping it) but not stored with the event.
 
 ## 2026-10-19
 - Calendar sync also copies one parent's work shifts into a separate shared calendar ("<name> – work") for the next 90 days, one entry per working day and no reminders of their own, so only that parent's notification settings apply.
